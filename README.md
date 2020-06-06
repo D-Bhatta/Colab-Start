@@ -159,4 +159,49 @@ Getting started with google colab
     !cat /proc/meminfo
     ```
 
-11. k
+11. To upload files from mounted google drive
+    1. Write the following code and navigate to given url
+
+        ```python
+        from google.colab import drive
+        drive.mount('/content/drive')
+        ```
+
+    2. Load fiiles
+
+        ```python
+        with open('/content/drive/My Drive/foo.txt', 'w') as f:
+        f.write('Hello Google Drive!')
+        !cat /content/drive/My\ Drive/foo.txt
+        ```
+
+    3. Unmount drive and save stuff
+
+        ```python
+        drive.flush_and_unmount()
+        print('All changes made in this colab session should now be visible in Drive.')
+        ```
+
+12. TO manually upload and download files
+    1. upload
+
+        ```python
+        from google.colab import files
+
+        uploaded = files.upload()
+
+        for fn in uploaded.keys():
+        print('User uploaded file "{name}" with length {length} bytes'.format(
+            name=fn, length=len(uploaded[fn])))
+        ```
+
+    2. download
+
+       ```python
+        from google.colab import files
+
+        with open('example.txt', 'w') as f:
+        f.write('some content')
+
+        files.download('example.txt')
+        ```
