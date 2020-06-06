@@ -2,8 +2,6 @@
 
 Getting started with google colab
 
-## Sections
-
 ## Notes
 
 1. There are cells in each .ipynb (Jupyter Notebook). Click on a cell and choose to either add a
@@ -47,7 +45,7 @@ Getting started with google colab
         from keras.layers import Dense
 
         # initiating the ANN
-        classifier = Sequential() 
+        classifier = Sequential()
 
         classifier.add(Dense(units = 16, activation = 'relu', input_dim = 30))
         classifier.add(Dense(units = 8, activation = 'relu'))
@@ -55,7 +53,7 @@ Getting started with google colab
         classifier.add(Dense(units = 1, activation = 'sigmoid'))
         ```
 
-   6. Compile it 
+   6. Compile it
 
         ```python
         classifier.compile(optimizer='rmsprop', loss='binary_crossentropy')
