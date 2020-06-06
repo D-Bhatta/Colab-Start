@@ -90,4 +90,73 @@ Getting started with google colab
         print(f"Total : {total} \n Correct : {correct} \n Wrong : {wrong}")
         ```
 
-5.  k
+5. To use a gpu:
+    1. go to Runtime in menu bar
+    2. Choose 'Change Runtime Type'
+    3. Choose 'GPU' as 'Hardware Accelerator'
+    4. Click save
+6. Check whether GPU is being used, to save time
+
+    ```python
+    device_name = tf.test.gpu_device_name()
+    if device_name != '/device:GPU:0':
+    raise SystemError("GPU device not found")
+    print(f'Found GPU at: {device_name}')
+    ```
+
+7. To use only GPU, use the `with tf.device('/gpu:0'):` code
+
+    ```python
+    mnist = tf.keras.datasets.mnist
+
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    x_train, x_test = x_train / 255.0, x_test / 255.0
+
+    with tf.device('/gpu:0'):
+    model = tf.keras.models.Sequential((
+        tf.keras.layers.Flatten(input_shape=(28,28)),
+        tf.keras.layers.Dense(512,activation=tf.nn.relu),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+    ))
+
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy',
+                    metrics=['accuracy'])
+
+    model.fit(x_train, y_train,epochs=5)
+    model.evaluate(x_test, y_test)
+    ```
+
+8. To use only CPU, use the `with tf.device('/cpu:0'):` code
+
+    ```python
+    with tf.device('/cpu:0'):
+    model = tf.keras.models.Sequential((
+        tf.keras.layers.Flatten(input_shape=(28,28)),
+        tf.keras.layers.Dense(512,activation=tf.nn.relu),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+    ))
+
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy',
+                    metrics=['accuracy'])
+
+    model.fit(x_train, y_train,epochs=5)
+    model.evaluate(x_test, y_test)
+    ```
+
+9. See all local devices with
+
+    ```python
+    from tensorflow.python.client import device_lib
+    device_lib.list_local_devices()
+    ```
+
+10. Checkout all local information with
+
+    ```python
+    !cat /proc/cpuinfo
+    !cat /proc/meminfo
+    ```
+
+11. k
